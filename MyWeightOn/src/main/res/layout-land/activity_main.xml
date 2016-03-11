@@ -51,7 +51,7 @@
       <Switch
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:id="@+id/switch1" android:checked="false"
+          android:id="@+id/unitSwitcher" android:checked="false"
           android:clickable="true" android:showText="true"
           android:textOff="KG" android:textOn="LBS"
           android:layout_marginLeft="@dimen/activity_vertical_margin"/>
@@ -108,7 +108,7 @@
                   android:layout_weight="0.04">
       <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/weightComputingResults"
+                android:id="@+id/weightComputedResults"
                 android:text="@string/weightComputingResults"
                 android:visibility="invisible" android:layout_gravity="center"/>
     </LinearLayout>

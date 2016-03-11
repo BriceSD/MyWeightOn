@@ -11,46 +11,7 @@ import android.widget.*;
 public class MainActivity
     extends Activity {
 
-  @Override
-  protected void onStart() {
-    super.onStart();
-  }
-
-  @Override
-  protected void onRestart() {
-    super.onRestart();
-  }
-
-  @Override
-  public void onStateNotSaved() {
-    super.onStateNotSaved();
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-  }
-
-  @Override
-  protected void onPostResume() {
-    super.onPostResume();
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState,
-      PersistableBundle persistentState) {
-    super.onCreate(savedInstanceState, persistentState);
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-  }
-
-  @Override
-  protected void onStop() {
-    super.onStop();
-  }
+// -------------------------- OTHER METHODS --------------------------
 
   @Override
   public void closeContextMenu() {
@@ -62,65 +23,102 @@ public class MainActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    final EditText weightInputField = (EditText) findViewById(R.id.weightField);
-
-    final Switch lbsUnitSwitcher = (Switch) findViewById(R.id.switch1);
-
-    final RadioButton moonChoice       = (RadioButton) findViewById(R.id.moonChoice);
-    final RadioButton marsChoice       = (RadioButton) findViewById(R.id.marsChoice);
-    final RadioButton mercuryChoice    = (RadioButton) findViewById(R.id.mercuryChoice);
-    final RadioButton jupiterChoice    = (RadioButton) findViewById(R.id.jupiterChoice);
-
-    Button computeButton    = (Button) findViewById(R.id.calculateButton);
+    Button computeButton   = (Button) findViewById(R.id.calculateButton);
     Button eraseDataButton = (Button) findViewById(R.id.eraseDatasButton);
+    Switch unitSwitcher    = (Switch) findViewById(R.id.unitSwitcher);
 
-    final TextView weightComputingResults =
-        (TextView) findViewById(R.id.weightComputingResults);
+    unitSwitcher.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        updateWeightResultMessage();
+      }
+    });
 
     computeButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        if(weightInputField.getText().toString().isEmpty())
-          return;
-
-        final String ERROR_UNKNOWN_PLANET_MESSAGE = "Unknown planet";
-        String       result                       = getString(R.string.weightComputingResults) + " ";
-        double       weight                       = Double.parseDouble(weightInputField.getText().toString());
-        final double earthGravitationalConstant   = 9.8;
-        final double moonGravitationalConstant    = 1.6;
-        final double marsGravitationalConstant    = 3.7;
-        final double mercuryGravitationalConstant = 3.6;
-        final int    jupiterGravitationalConstant = 25;
-        double       mass                         = weight / earthGravitationalConstant;
-
-
-        //C’est moche, une classe se cache dans ces if/elseIf. Utiliser le polymorphisme serait mieux.
-          if (moonChoice.isChecked())
-            result += getString(R.string.theMoon) + " : " + String.format("%.02f",mass * moonGravitationalConstant);
-          else if (marsChoice.isChecked())
-            result += getString(R.string.planetMars) + " : " + String.format("%.02f",mass * marsGravitationalConstant);
-          else if (mercuryChoice.isChecked())
-            result += getString(R.string.planetMercury) + " : " + String.format("%.02f",mass * mercuryGravitationalConstant);
-          else if (jupiterChoice.isChecked())
-            result += getString(R.string.planetJupiter) + " : " + String.format("%.02f", mass * jupiterGravitationalConstant);
-          else
-            throw new IllegalArgumentException(ERROR_UNKNOWN_PLANET_MESSAGE);
-
-          result += lbsUnitSwitcher.isChecked() ? " lbs." : " kg.";
-
-          weightComputingResults.setText(result);
-          weightComputingResults.setVisibility(View.VISIBLE);
+        updateWeightResultMessage();
       }
     });
 
     eraseDataButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        weightInputField.setText("");
-        lbsUnitSwitcher.setChecked(false);
-        moonChoice.setChecked(true);
-        weightComputingResults.setVisibility(View.INVISIBLE);
+        resetInputFields();
       }
     });
 
+  }
+
+  private void updateWeightResultMessage() {
+    final EditText weightInputField = (EditText) findViewById(R.id.weightField);
+
+    if (weightInputField.getText().toString().isEmpty())
+      return;
+
+    final TextView weightComputingResults = (TextView) findViewById(R.id.weightComputedResults);
+    weightComputingResults.setText(makeWeightMessage());
+    weightComputingResults.setVisibility(View.VISIBLE);
+  }
+
+  // TODO: 11/03/16 Refactor in a class
+  private String makeWeightMessage() {
+    final Switch   lbsUnitSwitcher  = (Switch) findViewById(R.id.unitSwitcher);
+    final EditText weightInputField = (EditText) findViewById(R.id.weightField);
+
+    final RadioButton moonChoice    = (RadioButton) findViewById(R.id.moonChoice);
+    final RadioButton marsChoice    = (RadioButton) findViewById(R.id.marsChoice);
+    final RadioButton mercuryChoice = (RadioButton) findViewById(R.id.mercuryChoice);
+    final RadioButton jupiterChoice = (RadioButton) findViewById(R.id.jupiterChoice);
+
+    final String ERROR_UNKNOWN_PLANET_MESSAGE = "Unknown planet";
+    String       result                       = getString(R.string.weightComputingResults) + " ";
+    double weight = Double.parseDouble(weightInputField.getText().toString());
+    final double earthGravitationalConstant   = 9.8;
+    final double moonGravitationalConstant    = 1.6;
+    final double marsGravitationalConstant    = 3.7;
+    final double mercuryGravitationalConstant = 3.6;
+    final int    jupiterGravitationalConstant = 25;
+    double       mass                         = weight / earthGravitationalConstant;
+
+
+    //C’est moche, une classe se cache dans ces if/elseIf. Utiliser le polymorphisme serait mieux.
+    if (moonChoice.isChecked())
+      result += getString(R.string.theMoon) + " : " + String
+          .format("%.02f", mass * moonGravitationalConstant);
+    else if (marsChoice.isChecked())
+      result += getString(R.string.planetMars) + " : " + String
+          .format("%.02f", mass * marsGravitationalConstant);
+    else if (mercuryChoice.isChecked())
+      result += getString(R.string.planetMercury) + " : " + String
+          .format("%.02f", mass * mercuryGravitationalConstant);
+    else if (jupiterChoice.isChecked())
+      result += getString(R.string.planetJupiter) + " : " + String
+          .format("%.02f", mass * jupiterGravitationalConstant);
+    else
+      throw new IllegalArgumentException(ERROR_UNKNOWN_PLANET_MESSAGE);
+
+    result += lbsUnitSwitcher.isChecked() ? " lbs." : " kg.";
+    return result;
+  }
+
+  private void resetInputFields() {
+    final EditText    weightInputField       = (EditText) findViewById(R.id.weightField);
+    final Switch      lbsUnitSwitcher        = (Switch) findViewById(R.id.unitSwitcher);
+    final RadioButton moonChoice             = (RadioButton) findViewById(R.id.moonChoice);
+    final TextView    weightComputingResults = (TextView) findViewById(R.id.weightComputedResults);
+
+    weightInputField.setText("");
+    lbsUnitSwitcher.setChecked(false);
+    moonChoice.setChecked(true);
+    weightComputingResults.setVisibility(View.INVISIBLE);
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+    super.onCreate(savedInstanceState, persistentState);
+
+    TextView weightComputedResults = (TextView) findViewById(R.id.weightComputedResults);
+    if (!weightComputedResults.getText().toString().isEmpty())
+      updateWeightResultMessage();
   }
 
   @Override
@@ -143,5 +141,13 @@ public class MainActivity
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  protected void onResume() {
+    super.onResume();
+
+    TextView weightComputedResults = (TextView) findViewById(R.id.weightComputedResults);
+    if (!weightComputedResults.getText().toString().isEmpty())
+      updateWeightResultMessage();
   }
 }
