@@ -1,0 +1,16 @@
+<resources>
+  <string name="app_name">MyWeightOn</string>
+
+  <string name="action_settings">Settings</string>
+  <string name="tw1">Your weight (on earth) :</string>
+  <string name="tw2">Calculate your weight on…</string>
+  <string name="planetMoon">Moon</string>
+  <string name="planetMercury">Mercury</string>
+  <string name="planetMars">Mars</string>
+  <string name="planetJupiter">Jupiter</string>
+  <string name="theMoon">the Moon</string>
+  <string name="eraseDatasButton">Erase Datas</string>
+  <string name="calculateButton">Calculate</string>
+  <string name="weightComputingResults">Your weight on</string>
+  <string name="weight">weight</string>
+</resources>

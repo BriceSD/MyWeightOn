@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">MyWeightOn</string>
+  <string name="action_settings">Paramètres</string>
+  <string name="calculateButton">Calculer</string>
+  <string name="eraseDatasButton">Ràz</string>
+  <string name="hello_world"></string>
+  <string name="planetJupiter">Jupiter</string>
+  <string name="planetMars">Mars</string>
+  <string name="planetMercury">Mercure</string>
+  <string name="planetMoon">Lune</string>
+  <string name="theMoon">la Lune</string>
+  <string name="tw1">Votre poids (sur terre) :</string>
+  <string name="tw2">Calculez votre poids sur…</string>
+  <string name="weight">poids</string>
+  <string name="weightComputingResults">Votre poids sur</string>
+</resources>
