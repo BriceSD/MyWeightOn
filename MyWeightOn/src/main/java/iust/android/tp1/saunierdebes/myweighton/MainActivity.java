@@ -113,15 +113,6 @@ public class MainActivity
   }
 
   @Override
-  public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-    super.onCreate(savedInstanceState, persistentState);
-
-    TextView weightComputedResults = (TextView) findViewById(R.id.weightComputedResults);
-    if (!weightComputedResults.getText().toString().isEmpty())
-      updateWeightResultMessage();
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
