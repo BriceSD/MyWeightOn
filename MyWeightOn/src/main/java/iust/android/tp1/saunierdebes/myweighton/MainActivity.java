@@ -34,12 +34,14 @@ public class MainActivity
     });
 
     computeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
       public void onClick(View v) {
         updateWeightResultMessage();
       }
     });
 
     eraseDataButton.setOnClickListener(new View.OnClickListener() {
+      @Override
       public void onClick(View v) {
         resetInputFields();
       }
@@ -54,12 +56,12 @@ public class MainActivity
       return;
 
     final TextView weightComputingResults = (TextView) findViewById(R.id.weightComputedResults);
-    weightComputingResults.setText(makeWeightMessage());
+    weightComputingResults.setText(computedWeightMessage());
     weightComputingResults.setVisibility(View.VISIBLE);
   }
 
-  // TODO: 11/03/16 Refactor in a class
-  private String makeWeightMessage() {
+  // TODO: 11/03/16 Refactor in an interface and 5 classes. An abstract factory would be better too.
+  private String computedWeightMessage() {
     final Switch   lbsUnitSwitcher  = (Switch) findViewById(R.id.unitSwitcher);
     final EditText weightInputField = (EditText) findViewById(R.id.weightField);
 
@@ -78,8 +80,6 @@ public class MainActivity
     final int    jupiterGravitationalConstant = 25;
     double       mass                         = weight / earthGravitationalConstant;
 
-
-    //C’est moche, une classe se cache dans ces if/elseIf. Utiliser le polymorphisme serait mieux.
     if (moonChoice.isChecked())
       result += getString(R.string.theMoon) + " : " + String
           .format("%.02f", mass * moonGravitationalConstant);
